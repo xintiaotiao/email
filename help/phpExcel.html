@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Laravel Excel的简单安装及使用 - 前后维谷 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="/bundles/blog-common.css?v=-hy83QNg62d4qYibixJzxMJkbf1P9fTBlqv7SK5zVL01"/>
+<link id="MainCss" type="text/css" rel="stylesheet" href="/skins/BlackLowKey/bundle-BlackLowKey.css?v=porUb1GRMsPCuLZTJKjoDyrJre6Y7-Oiq-zx-_VcGG81"/>
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/BlackLowKey/bundle-BlackLowKey-mobile.css?v=d9LctKHRIQp9rreugMcQ1-UJuq_j1fo0GZXTXj8Bqrk1"/>
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/martianShu/rss"/>
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/martianShu/rsd.xml"/>
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/martianShu/wlwmanifest.xml"/>
+<script src="//common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+<script type="text/javascript">var currentBlogApp = 'martianShu', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="/bundles/blog-common.js?v=d16NGD79qD3qnJt25hXDZ2sGoojamz2W5Rl4vT0CGVg1" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="http://www.cnblogs.com/martianShu/"><img id="blogLogo" src="/Skins/custom/images/logo.gif" alt="返回主页" /></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/martianShu/">我是小白</a></h1>
+<h2></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="http://www.cnblogs.com/martianShu/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E5%89%8D%E5%90%8E%E7%BB%B4%E8%B0%B7">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="http://www.cnblogs.com/martianShu/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="http://www.cnblogs.com/martianShu/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 14&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 4</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class = "post">
+		<h1 class = "postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/martianShu/p/5869270.html">Laravel Excel的简单安装及使用</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p>　　<span style="font-size: 14px;">后台操作数据库时经常会在数据和Excel之间进行大量地导入导出操作，从我的亲身经历来看最近导表也不下百份，以往的shell脚本已经不能满足现在的需求了，所以刚好就碰到了Laravel Excel这款强大的工具，不过网上的资料也许太多导致之前安装都出了一些问题，所以专程记录一下避免以后再绕弯路。</span></p>
+<p><span style="font-size: 14px;">　　之前我把Excel数据导入数据库都是通过shell脚本处理，先把excel的内容拷贝到一个txt文档里，注意所有的excel单位格必须填充内容（null值填写为'空'或者'无'），然后所有数据不能换行，并且去除txt文件如 &lsquo;,&rsquo;&rsquo;和空格这些符号，最后再用readline方法，以' &nbsp; &nbsp;'为分隔符获取每一列的数据：</span></p>
+<p><img src="https://images2015.cnblogs.com/blog/1021572/201609/1021572-20160913172629617-1999434195.png" alt="" /></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">cat</span> temp.txt|<span style="color: #0000ff;">awk</span> <span style="color: #800000;">'</span><span style="color: #800000;">NR&gt;1</span><span style="color: #800000;">'</span>|<span style="color: #0000ff;">while</span><span style="color: #000000;"> read line
+</span><span style="color: #0000ff;">do</span><span style="color: #000000;">
+    myDate</span>=`<span style="color: #0000ff;">echo</span> $line|<span style="color: #0000ff;">awk</span> -F<span style="color: #800000;">'</span>    <span style="color: #800000;">'</span> <span style="color: #800000;">'</span><span style="color: #800000;">{printf("%s",$1)}</span><span style="color: #800000;">'</span><span style="color: #000000;">`
+    myIn</span>=`<span style="color: #0000ff;">echo</span> $line|<span style="color: #0000ff;">awk</span> -F<span style="color: #800000;">'</span>    <span style="color: #800000;">'</span> <span style="color: #800000;">'</span><span style="color: #800000;">{printf("%s",$2)}</span><span style="color: #800000;">'</span><span style="color: #000000;">`
+    myOut</span>=`<span style="color: #0000ff;">echo</span> $line|<span style="color: #0000ff;">awk</span> -F<span style="color: #800000;">'</span>    <span style="color: #800000;">'</span> <span style="color: #800000;">'</span><span style="color: #800000;">{printf("%s",$3)}</span><span style="color: #800000;">'</span><span style="color: #000000;">`
+    remark</span>=`<span style="color: #0000ff;">echo</span> $line|<span style="color: #0000ff;">awk</span> -F<span style="color: #800000;">'</span>    <span style="color: #800000;">'</span> <span style="color: #800000;">'</span><span style="color: #800000;">{printf("%s",$4)}</span><span style="color: #800000;">'</span><span style="color: #000000;">`
+    'mysql -hxxx -uxxx -pxxx --default-character-set=utf8'-N -e"<br />　　　insert into t_record(myDate,myIn,myOut,remark) values('$myDate','$myIn','$myOut','$remark');<br />　　"</span>
+<span style="color: #0000ff;">done</span></pre>
+</div>
+<p>　<span style="font-size: 14px;">　这种方法比较复杂，对txt的要求比较高，一旦数据量大一些或者存在换行的情况就十分容易出错，恰好自己现在开发的项目用到Laravel框架，所以就索性全部用其自带的Excel来完优化导表过程吧。</span></p>
+<p><span style="font-size: 14px;">　　安装：</span></p>
+<p><span style="font-size: 14px;">　　Laravel Excel是一款既可以执行Excel数据导入也可以执行Excel导出的工具，其官方文档可以参考<a href="http://www.maatwebsite.nl/laravel-excel/docs" target="_blank">http://www.maatwebsite.nl/laravel-excel/docs</a>。在安装这个插件之前首先确保你的电脑或者服务器安装了composer,没安装的可以参考<a href="http://www.jianshu.com/p/256547b495c2" target="_blank">http://www.jianshu.com/p/256547b495c2</a>，当你在命令行下输入composer出现几个大大的Composer时说明已经安装成功了。</span></p>
+<p><span style="font-size: 14px;">　　首先打开要添加插件的那个项目的composer.json文件，由于我当时用的是Lavarel4所以在require部分添加''maatwebsite/excel'':''~1.3''，如果是Laravel5则添加 &nbsp; &nbsp;''maatwebsite/excel'':''~2.1.0''，随后执行composer update命令就可以把所需要的文件夹下载到你的项目中。值得注意的是如果你只想更新Excel这个插件 可以直接执行 &nbsp;&nbsp;composer update maatwebsite/excel 命令，因为执行composer update会把所有需要更新的内容都update一遍，网络差，耗时长的情况下简直是噩梦，所以建议需要哪个东西才更新哪个，不要一下子全部更新了。</span></p>
+<p><img src="https://images2015.cnblogs.com/blog/1021572/201609/1021572-20160913194505414-1832456614.png" alt="" /></p>
+<p>　<span style="font-size: 14px;">　更新成功后，在你的vendor目录下会出现maatwebsite和phpoffice这两个文件夹，如果没有继续回去更新吧（试试国内的镜像）。然后在config/app.php内引入两行说明：</span></p>
+<p><span style="font-size: 14px;">在providers的数组里添加'Maatwebsite\Excel\ExcelServiceProvider'</span></p>
+<p><img src="https://images2015.cnblogs.com/blog/1021572/201609/1021572-20160913195714367-1127323641.png" alt="" /></p>
+<p><span style="font-size: 14px;">在aliases里添加'Excel' =&gt; 'Maatwebsite\Excel\Facades\Excel'</span></p>
+<p><img src="https://images2015.cnblogs.com/blog/1021572/201609/1021572-20160913195916992-1053966353.png" alt="" /></p>
+<p>　　<span style="font-size: 14px;">最后再在项目的根目录下执行php artisan config:publish maatwebsite/excel命令，如果是5则执行php artisan vendor:publish就完成整个安装过程，其实整个过程并不复杂，只要看到那两个文件夹出现了，就有十之八九了。</span></p>
+<p><span style="font-size: 14px;">　　使用：</span></p>
+<p><span style="font-size: 14px;">首先在具体的Controller的Php文件里加上 use Maatwebsite\Excel\Facades\Excel;</span></p>
+<p><img src="https://images2015.cnblogs.com/blog/1021572/201609/1021572-20160913200532117-472293942.png" alt="" /></p>
+<p><span style="font-size: 14px;">然后可以通过创建一个Excel对象或者直接调用Excel类里的方法来实现导出导入功能</span></p>
+<div class="cnblogs_code">
+<pre><span style="font-size: 14px;"><span style="color: #008000;">//</span><span style="color: #008000;">创建对象导入数据(类的话直接使用 Excel::load()方法)</span>
+<span style="color: #800080;">$excel</span> = App::make('excel');<span style="color: #008000;">//</span><span style="color: #008000;">excel类</span>
+<span style="color: #800080;">$excel</span>-&gt;load("/temp.xlsx", <span style="color: #0000ff;">function</span>(<span style="color: #800080;">$reader</span>) <span style="color: #008000;">//</span><span style="color: #008000;">reader读取excel内容</span>
+<span style="color: #000000;">{
+    </span><span style="color: #800080;">$reader</span> = <span style="color: #800080;">$reader</span>-&gt;getSheet(0);<span style="color: #008000;">//</span><span style="color: #008000;">excel第一张sheet</span>
+    <span style="color: #800080;">$results</span> = <span style="color: #800080;">$reader</span>-&gt;<span style="color: #000000;">toArray();
+    </span><span style="color: #0000ff;">unset</span>(<span style="color: #800080;">$results</span>[0]);<span style="color: #008000;">//</span><span style="color: #008000;">去除表头</span>
+    <span style="color: #0000ff;">if</span> (<span style="color: #800080;">$results</span><span style="color: #000000;">)
+    {
+        </span><span style="color: #0000ff;">foreach</span> (<span style="color: #800080;">$results</span> <span style="color: #0000ff;">as</span> <span style="color: #800080;">$key</span> =&gt; <span style="color: #800080;">$value</span><span style="color: #000000;">)
+        {
+            </span><span style="color: #800080;">$data</span> =<span style="color: #000000;"> [];
+            </span><span style="color: #800080;">$data</span>['myDate'] = <span style="color: #800080;">$value</span>[0] == <span style="color: #0000ff;">null</span> ? '':<span style="color: #008080;">trim</span>(<span style="color: #800080;">$value</span>[0<span style="color: #000000;">]);
+            </span><span style="color: #800080;">$data</span>['myIn'] = <span style="color: #800080;">$value</span>[1] == <span style="color: #0000ff;">null</span> ? '' : <span style="color: #008080;">trim</span>(<span style="color: #800080;">$value</span>[1<span style="color: #000000;">]);
+            </span><span style="color: #800080;">$data</span>['myOut'] = <span style="color: #800080;">$value</span>[2] == <span style="color: #0000ff;">null</span> ? '' : <span style="color: #008080;">trim</span>(<span style="color: #800080;">$value</span>[2<span style="color: #000000;">]);
+            </span><span style="color: #800080;">$data</span>['remark'] = <span style="color: #800080;">$value</span>[3] == <span style="color: #0000ff;">null</span> ? '' : <span style="color: #008080;">trim</span>(<span style="color: #800080;">$value</span>[3<span style="color: #000000;">]);
+                
+            </span><span style="color: #800080;">$res</span> = DB::table('t_record')-&gt;insertGetId(<span style="color: #800080;">$data</span><span style="color: #000000;">);
+        }
+    }
+});</span></span></pre>
+</div>
+<div class="cnblogs_code">
+<div class="cnblogs_code">
+<pre><span style="font-size: 14px;"><span style="color: #008000;">//使用类的方法导出excel<br />//</span><span style="color: #008000;">创建一个文件并导出</span>
+<span style="color: #800080;">$test</span>='第一个位置'<span style="color: #000000;">;
+Excel</span>::create("new.xlsx", <span style="color: #0000ff;">function</span>(<span style="color: #800080;">$excel</span>) <span style="color: #0000ff;">use</span>(<span style="color: #800080;">$test</span><span style="color: #000000;">)
+{
+    </span><span style="color: #008000;">//</span><span style="color: #008000;">创建sheet</span>
+    <span style="color: #800080;">$excel</span>-&gt;sheet('sheet1',<span style="color: #0000ff;">function</span>(<span style="color: #800080;">$sheet</span>)  <span style="color: #0000ff;">use</span>(<span style="color: #800080;">$test</span><span style="color: #000000;">)
+    {
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">填充每个单元格的内容</span>
+            <span style="color: #800080;">$sheet</span>-&gt;cell('A1',<span style="color: #0000ff;">function</span>(<span style="color: #800080;">$cell</span>) <span style="color: #0000ff;">use</span> (<span style="color: #800080;">$test</span><span style="color: #000000;">)
+            {
+                  </span><span style="color: #800080;">$cell</span>-&gt;setValue(<span style="color: #800080;">$test</span><span style="color: #000000;">);
+            });
+    });
+})</span>-&gt;export('xls'<span style="color: #000000;">);
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;">读取一个文件并导出</span>
+Excel::load("new.xlsx", <span style="color: #0000ff;">function</span>(<span style="color: #800080;">$excel</span><span style="color: #000000;">) 
+{
+    </span><span style="color: #008000;">//</span><span style="color: #008000;">读取sheet</span>
+    <span style="color: #800080;">$excel</span>-&gt;sheet('sheet1',<span style="color: #0000ff;">function</span>(<span style="color: #800080;">$sheet</span><span style="color: #000000;">)
+    {
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">修改每个单元格的内容</span>
+            <span style="color: #800080;">$sheet</span>-&gt;cell('A1',<span style="color: #0000ff;">function</span>(<span style="color: #800080;">$cell</span><span style="color: #000000;">)
+            {
+                  </span><span style="color: #800080;">$cell</span>-&gt;setValue('1'<span style="color: #000000;">);
+            });
+    });
+})</span>-&gt;export('xls');</span></pre>
+</div>
+<p>&nbsp;</p>
+</div>
+<p><span style="font-size: 14px;">除此之外还有例如为excel设置标题、字体大小、单元格的大小、背景颜色、宽度、高度、水平、垂直居中、外边距、内边距等等，功能十分强大，让你感觉你不仅仅是在导出一个excel而是在写一个html+css的页面，具体的需求功能可以参考其API文档。好了，以后的excel与数据库的交互不用愁了！！</span></p>
+<p>&nbsp;</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info">
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"></div>
+</div>
+
+
+		</div>
+		<div class = "postDesc">posted @ <span id="post-date">2016-09-13 20:33</span> <a href='http://www.cnblogs.com/martianShu/'>前后维谷</a> 阅读(<span id="post_view_count">...</span>) 评论(<span id="post_comment_count">...</span>)  <a href ="https://i.cnblogs.com/EditPosts.aspx?postid=5869270" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(5869270);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=303838,cb_entryId=5869270,cb_blogApp=currentBlogApp,cb_blogUserGuid='2b024f56-d573-e611-9fc1-ac853d9f53cc',cb_entryCreatedDate='2016/9/13 20:33:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id='comment_form' class='commentform'>
+<a name='commentform'></a>
+<div id='divCommentShow'></div>
+<div id='comment_nav'><span id='span_refresh_tips'></span><a href='javascript:void(0);' onclick='return RefreshCommentList();' id='lnk_RefreshComments' runat='server' clientidmode='Static'>刷新评论</a><a href='#' onclick='return RefreshPage();'>刷新页面</a><a href='#top'>返回顶部</a></div>
+<div id='comment_form_container'></div>
+<div class='ad_text_commentbox' id='ad_text_under_commentbox'></div>
+<div id='ad_t2'></div>
+<div id='opt_under_post'></div>
+<div id='cnblogs_c1' class='c_ad_block'></div>
+<div id='under_post_news'></div>
+<div id='cnblogs_c2' class='c_ad_block'></div>
+<div id='under_post_kb'></div>
+<div id='HistoryToday' class='c_ad_block'></div>
+<script type='text/javascript'>
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style="display:none"></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright &copy;2018 前后维谷
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+</body>
+</html>
